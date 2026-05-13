@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fashion Ecommerce</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial;
+}
+
+body{
+  background:#f5f5f5;
+}
+
+/* LOGIN PAGE */
+.login-page{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.login-box{
+  width:350px;
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  text-align:center;
+}
+
+.login-box input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border:1px solid #ccc;
+  border-radius:8px;
+}
+
+.login-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  background:#111;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* TOP BAR */
+.top-bar{
+  background:#111;
+  color:white;
+  display:flex;
+  justify-content:flex-end;
+  padding:10px 40px;
+  gap:20px;
+}
+
+.top-bar a{
+  color:white;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  background:white;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.logo-container{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-img{
+  width:32px;
+  height:32px;
+}
+
+.menu button{
+  margin:0 5px;
+  padding:10px;
+  border:none;
+  background:#111;
+  color:white;
+  cursor:pointer;
+  border-radius:6px;
+}
+
+.search-box input{
+  padding:8px;
+  width:200px;
+  border-radius:20px;
+  border:1px solid #ccc;
+}
+
+.cart{
+  background:#111;
+  color:white;
+  padding:8px 15px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+/* SLIDER */
+.slider{
+  width:90%;
+  height:400px;
+  margin:30px auto;
+  position:relative;
+  overflow:hidden;
+  border-radius:15px;
+}
+
+.slide{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:absolute;
+  opacity:0;
+  transition:1s;
+}
+
+.slide.active{
+  opacity:1;
+}
+
+/* PRODUCTS */
+.products{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  padding:30px;
+}
+
+.product-card{
+  width:240px;
+  background:white;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.product-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+}
+
+.product-info{
+  padding:15px;
+  text-align:center;
+}
+
+.price{
+  margin:10px 0;
+  font-weight:bold;
+}
+
+.buy-btn{
+  padding:10px;
+  background:#111;
+  color:white;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.title{
+  text-align:center;
+  padding:20px;
+}
+
+/* CART BOX */
+.cart-box{
+  position:fixed;
+  right:20px;
+  top:80px;
+  width:300px;
+  background:white;
+  padding:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  display:none;
+  border-radius:10px;
+  z-index:999;
+}
+
+.qty-btn{
+  width:30px;
+  height:30px;
+  border:none;
+  background:#111;
+  color:white;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* PRODUCT TABLE */
+.table-container{
+  width:75%;
+  margin:20px auto;
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.product-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+.product-table th,
+.product-table td{
+  border:1px solid #ddd;
+  padding:8px;
+  text-align:center;
+}
+
+.product-table th{
+  background:#111;
+  color:white;
+}
+
+.product-table img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.table-btn{
+  padding:6px 12px;
+  border:none;
+  background:#111;
+  color:white;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div class="login-page" id="loginPage">
+
+  <div class="login-box">
+
+    <h2>Login</h2>
+
+    <input type="text" id="username" placeholder="Enter Username">
+
+    <input type="password" id="password" placeholder="Enter Password">
+
+    <button class="login-btn" onclick="login()">
+      Login
+    </button>
+
+  </div>
+
+</div>
+
+<!-- REGISTRATION PAGE -->
+<div class="login-page" id="registerPage">
+
+  <div class="login-box">
+
+    <h2>Registration Form</h2>
+
+    <input type="text"
+    id="regUsername"
+    placeholder="Enter Username">
+
+    <input type="email"
+    id="regEmail"
+    placeholder="Enter Email">
+
+    <input type="password"
+    id="regPassword"
+    placeholder="Enter Password">
+
+    <button class="login-btn"
+    onclick="registerUser()">
+
+      Register
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+
+  <a onclick="openLogin()">Login</a>
+
+  <a onclick="openRegister()">Account</a>
+
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+  <div class="logo-container">
+    <img class="logo-img"
+    src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png">
+    <b>FASHION</b>
+  </div>
+
+  <div class="menu">
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('men')">Men</button>
+    <button onclick="showPage('women')">Women</button>
+    <button onclick="showPage('kids')">Kids</button>
+  </div>
+
+  <div class="search-box">
+    <input type="text"
+    placeholder="Search products..."
+    onkeyup="searchProduct(this.value)">
+  </div>
+
+  <div class="cart" onclick="toggleCart()">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </div>
+
+</div>
+
+<!-- CART -->
+<div class="cart-box" id="cartBox">
+
+  <h3>Your Cart</h3>
+
+  <div id="cartItems"></div>
+
+  <h3 style="margin-top:15px;">
+    Total: ₹<span id="totalPrice">0</span>
+  </h3>
+
+</div>
+
+<!-- SLIDER -->
+<div class="slider">
+
+  <img class="slide active"
+  src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200">
+
+  <img class="slide"
+  src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200">
+
+  <img class="slide"
+  src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200">
+
+</div>
+
+<!-- CONTENT -->
+<div id="content"></div>
+
+<!-- PRODUCT TABLE -->
+<div class="table-container">
+
+  <h2 class="title">Products Table</h2>
+
+  <table class="product-table">
+
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody id="productTableBody"></tbody>
+
+  </table>
+
+</div>
+
+<script>
+
+let cart = [];
+
+/* PRODUCTS */
+const productsData = [
+
+  {
+    name:"Men T-Shirt",
+    category:"men",
+    price:500,
+    img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=500"
+  },
+
+  {
+    name:"Men Shoes",
+    category:"men",
+    price:3000,
+    img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=500"
+  },
+
+  {
+    name:"Men Watch",
+    category:"men",
+    price:5000,
+    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAHQeg-uAyU6ZtwYOSDLOtVQFDMQrZTwJDZw&s=500"
+  },
+
+  {
+    name:"Men Goggles",
+    category:"men",
+    price:2700,
+    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVIcDssn8Gk0-kWXJFXDHcH8JZmfAqllEwxQ&s=500"
+  },
+
+  {
+    name:"Women Dress",
+    category:"women",
+    price:1200,
+    img:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500"
+  },
+
+  {
+    name:"Women's makeup kit",
+    category:"women",
+    price:7000,
+    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNbZK_9NuI31u_yJkYi7vvCMQYwWgxHHvVNw&s=500"
+  },
+
+  {
+    name:"Women Bag",
+    category:"women",
+    price:2000,
+    img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=500"
+  },
+
+  {
+    name:"Women Shoe",
+    category:"women",
+    price:4000,
+    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaiiIWegfciA-dkTwymUFcstxnzddfNtbBnQ&s=500"
+  },
+
+  {
+    name:"Kids Wear",
+    category:"kids",
+    price:500,
+    img:"https://images.unsplash.com/photo-1519238359922-989348752efb?q=80&w=500"
+  },
+
+  {
+    name:"Kids shoe",
+    category:"kids",
+    price:2000,
+    img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR6poe6kh9fdVXa8xsjlC-xfqFLU5TFrOnpA&s=500"
+  }
+
+];
+
+/* LOGIN */
+function openLogin(){
+
+  document.getElementById("loginPage").style.display = "flex";
+
+}
+
+function login(){
+
+  let username =
+  document.getElementById("username").value;
+
+  let password =
+  document.getElementById("password").value;
+
+  if(username !== "" && password !== ""){
+
+    alert("Login Successful");
+
+    document.getElementById("loginPage").style.display = "none";
+
+  }
+  else{
+
+    alert("Please Enter Username & Password");
+
+  }
+}
+
+/* REGISTER */
+function openRegister(){
+
+  document.getElementById("registerPage").style.display = "flex";
+
+}
+
+function registerUser(){
+
+  let username =
+  document.getElementById("regUsername").value;
+
+  let email =
+  document.getElementById("regEmail").value;
+
+  let password =
+  document.getElementById("regPassword").value;
+
+  if(username !== "" &&
+     email !== "" &&
+     password !== ""){
+
+    alert("Registration Successful");
+
+    document.getElementById("registerPage").style.display = "none";
+
+  }
+  else{
+
+    alert("Please Fill All Fields");
+
+  }
+
+}
+
+/* SHOW PAGE */
+function showPage(page){
+
+  let filteredProducts = [];
+
+  if(page === "home"){
+
+    filteredProducts = productsData;
+
+  }
+  else{
+
+    filteredProducts =
+    productsData.filter(p => p.category === page);
+
+  }
+
+  let html =
+  `<h2 class="title">${page.toUpperCase()} COLLECTION</h2>
+   <div class="products">`;
+
+  filteredProducts.forEach(p=>{
+
+    html += `
+    <div class="product-card">
+
+      <img src="${p.img}">
+
+      <div class="product-info">
+
+        <h3>${p.name}</h3>
+
+        <div class="price">₹${p.price}</div>
+
+        <button class="buy-btn"
+        onclick="addToCart('${p.name}',${p.price})">
+
+        Add To Cart
+
+        </button>
+
+      </div>
+
+    </div>
+    `;
+  });
+
+  html += "</div>";
+
+  document.getElementById("content").innerHTML = html;
+}
+
+/* LOAD PRODUCT TABLE */
+function loadProductTable(){
+
+  let html = "";
+
+  productsData.forEach(p=>{
+
+    html += `
+    <tr>
+
+      <td>
+        <img src="${p.img}">
+      </td>
+
+      <td>${p.name}</td>
+
+      <td>${p.category}</td>
+
+      <td>₹${p.price}</td>
+
+      <td>
+
+        <button class="table-btn"
+        onclick="addToCart('${p.name}',${p.price})">
+
+        Add To Cart
+
+        </button>
+
+      </td>
+
+    </tr>
+    `;
+  });
+
+  document.getElementById("productTableBody").innerHTML = html;
+}
+
+/* ADD TO CART */
+function addToCart(name,price){
+
+  let found =
+  cart.find(item => item.name === name);
+
+  if(found){
+
+    found.qty++;
+
+  }
+  else{
+
+    cart.push({
+      name:name,
+      price:price,
+      qty:1
+    });
+
+  }
+
+  updateCart();
+}
+
+/* UPDATE CART */
+function updateCart(){
+
+  let box =
+  document.getElementById("cartItems");
+
+  let total = 0;
+
+  box.innerHTML = "";
+
+  cart.forEach((item,index)=>{
+
+    total += item.price * item.qty;
+
+    box.innerHTML += `
+
+    <div style="
+      border-bottom:1px solid #ddd;
+      padding:10px 0;
+    ">
+
+      <h4>${item.name}</h4>
+
+      <p>₹${item.price}</p>
+
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-top:8px;
+      ">
+
+        <button class="qty-btn"
+        onclick="decreaseQty(${index})">-</button>
+
+        <span>${item.qty}</span>
+
+        <button class="qty-btn"
+        onclick="increaseQty(${index})">+</button>
+
+      </div>
+
+    </div>
+
+    `;
+
+  });
+
+  let totalItems = 0;
+
+  cart.forEach(item=>{
+
+    totalItems += item.qty;
+
+  });
+
+  document.getElementById("cartCount").innerText =
+  totalItems;
+
+  document.getElementById("totalPrice").innerText =
+  total;
+}
+
+/* PLUS BUTTON */
+function increaseQty(index){
+
+  cart[index].qty++;
+
+  updateCart();
+
+}
+
+/* MINUS BUTTON */
+function decreaseQty(index){
+
+  cart[index].qty--;
+
+  if(cart[index].qty <= 0){
+
+    cart.splice(index,1);
+
+  }
+
+  updateCart();
+
+}
+
+/* TOGGLE CART */
+function toggleCart(){
+
+  let box =
+  document.getElementById("cartBox");
+
+  box.style.display =
+  box.style.display === "block"
+  ? "none"
+  : "block";
+}
+
+/* SEARCH */
+function searchProduct(value){
+
+  value = value.toLowerCase();
+
+  let filtered =
+  productsData.filter(p =>
+  p.name.toLowerCase().includes(value));
+
+  let html =
+  `<h2 class="title">SEARCH RESULTS</h2>
+   <div class="products">`;
+
+  filtered.forEach(p=>{
+
+    html += `
+    <div class="product-card">
+
+      <img src="${p.img}">
+
+      <div class="product-info">
+
+        <h3>${p.name}</h3>
+
+        <div class="price">₹${p.price}</div>
+
+        <button class="buy-btn"
+        onclick="addToCart('${p.name}',${p.price})">
+
+        Add To Cart
+
+        </button>
+
+      </div>
+
+    </div>
+    `;
+  });
+
+  html += "</div>";
+
+  document.getElementById("content").innerHTML = html;
+}
+
+/* SLIDER */
+let slides =
+document.querySelectorAll(".slide");
+
+let index = 0;
+
+setInterval(()=>{
+
+  slides[index].classList.remove("active");
+
+  index++;
+
+  if(index >= slides.length){
+
+    index = 0;
+
+  }
+
+  slides[index].classList.add("active");
+
+},3000);
+
+/* DEFAULT */
+showPage("home");
+loadProductTable();
+
+</script>
+
+</body>
+</html>   
